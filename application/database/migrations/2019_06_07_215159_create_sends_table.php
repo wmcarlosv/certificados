@@ -22,7 +22,7 @@ class CreateSendsTable extends Migration
             $table->string('email',250)->nullable(false);
             $table->timestamps();
 
-            $table->foreign('certificate_id')->references('id')->on('certificates')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign('certificate_id')->references('id')->on('certificates')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
