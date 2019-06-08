@@ -191,13 +191,6 @@ class CertificatesController extends Controller
 
             $url = url('/') . "/certificate/".$id."/".$user['email'];
 
-            Mail::send('admin.certificates.mail', ['data' => $data, 'url' => $url], function ($m) use ($user) {
-                $m->from('certificadosreitigh@gmail.com', 'Certificado Otorgado');
-
-                $m->to($user['email'], $user['firts_name']." ".$user['last_name'])->subject('Nuevo Certificado para Usted');
-                $m->attachData($this->attachment_pdf($user['id'],$user['email']),'Certificado.pdf');
-            });
-
             $validar = DB::select('select * from sends where certificate_id = '.$id.' and email = "'.$user['email'].'"');
 
             if(count($validar) == 0){
@@ -211,6 +204,13 @@ class CertificatesController extends Controller
                 ]);  
 
             }
+
+            Mail::send('admin.certificates.mail', ['data' => $data, 'url' => $url], function ($m) use ($user) {
+                $m->from('certificadosreitigh@gmail.com', 'Certificado Otorgado');
+
+                $m->to($user['email'], $user['firts_name']." ".$user['last_name'])->subject('Nuevo Certificado para Usted');
+                $m->attachData($this->attachment_pdf($user['id'],$user['email']),'Certificado.pdf');
+            });
             
             $user = [];
             $url = "";
