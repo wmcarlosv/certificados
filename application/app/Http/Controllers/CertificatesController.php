@@ -207,6 +207,8 @@ class CertificatesController extends Controller
                 $full_name = $full_name + " " +$user['last_name'];
             }
 
+            $user['full_name'] = $full_name;
+
             $url = url('/') . "/certificate/".$id."/".$user['email']."/".$full_name."/".$user['dni'];
 
             $validar = DB::select('select * from sends where certificate_id = '.$id.' and email = "'.$user['email'].'"');
@@ -227,7 +229,7 @@ class CertificatesController extends Controller
                 $m->from('certificadosreitigh@gmail.com', $user['header']);
 
                 $m->to($user['email'], $user['firts_name']." ".$user['last_name'])->subject($user['subject']);
-                $m->attachData($this->attachment_pdf($user['id'],$user['email'],$full_name, $user['dni']),'Certificado.pdf');
+                $m->attachData($this->attachment_pdf($user['id'],$user['email'],$user['full_name'], $user['dni']),'Certificado.pdf');
             });
             
             $user = [];
