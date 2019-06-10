@@ -18,6 +18,8 @@ class CreateCertificatesTable extends Migration
             $table->string('title',250)->nullable(false);
             $table->string('background',100)->nullable();
             $table->text('content')->nullable(false);
+            $table->string('header',150)->nullable(false);
+            $table->string('subject',150)->nullable(false);
             $table->timestamps();
         });
     }

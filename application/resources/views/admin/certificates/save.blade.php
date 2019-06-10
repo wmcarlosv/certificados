@@ -56,6 +56,14 @@
                             <label for="content">Contenido: </label>
                             <textarea class="form-control super-editor" type="text" name="content" id="content">{{ @$data->content }}</textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="header">Cabecera: </label>
+                            <input class="form-control" type="text" name="header" id="header" value="{{ @$data->header }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Asunto: </label>
+                            <input class="form-control" type="text" name="subject" id="subject" value="{{ @$data->subject }}">
+                        </div>
                         <button class="btn btn-success">Save</button>
                         <a href="{{ route('certificates.index') }}" class="btn btn-danger">Cancel</a>
                    {!! Form::close() !!}

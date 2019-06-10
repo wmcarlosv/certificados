@@ -48,7 +48,9 @@ class CertificatesController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'header' => 'required',
+            'subject' => 'required'
         ]);
 
         $object = new Certificate();
@@ -59,6 +61,8 @@ class CertificatesController extends Controller
             $object->background = NULL;
         }
         $object->content = $request->input("content");
+        $object->header = $request->input("header");
+        $object->subject = $request->input("subject");
 
         if($object->save()){
             flash("Registro insertado con Exito!!")->success();
@@ -111,7 +115,9 @@ class CertificatesController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'header' => 'required',
+            'subject' => 'required'
         ]);
 
         $object = Certificate::findorfail($id);
@@ -122,6 +128,8 @@ class CertificatesController extends Controller
         }
 
         $object->content = $request->input("content");
+        $object->header = $request->input("header");
+        $object->subject = $request->input("subject");
 
         if($object->save()){
             flash("Registro Actualizado con Exito!!")->success();
@@ -191,6 +199,8 @@ class CertificatesController extends Controller
             $user['last_name'] = $request->input('last_name')[$i];
             $user['dni'] = $request->input('dni')[$i];
             $user['id'] = $id;
+            $user['header'] = $data->header;
+            $user['subject'] = $data->subject;
 
             $full_name = $user['firts_name'];
             if(isset($user['last_name']) and !empty($user['last_name'])){
@@ -214,9 +224,9 @@ class CertificatesController extends Controller
             }
 
             Mail::send('admin.certificates.mail', ['data' => $data, 'url' => $url], function ($m) use ($user) {
-                $m->from('certificadosreitigh@gmail.com', 'Certificado Otorgado');
+                $m->from('certificadosreitigh@gmail.com', $user['header']);
 
-                $m->to($user['email'], $user['firts_name']." ".$user['last_name'])->subject('Nuevo Certificado para Usted');
+                $m->to($user['email'], $user['firts_name']." ".$user['last_name'])->subject($user['subject']);
                 $m->attachData($this->attachment_pdf($user['id'],$user['email']),'Certificado.pdf');
             });
             
