@@ -21,6 +21,14 @@
                                     <input type="text" readonly="readonly" class="form-control" value="{{ $data->title }}">
                                 </div>
                                 <div class="form-group">
+                                    <label>Cabecera</label>
+                                    <input type="text" readonly="readonly" class="form-control" value="{{ $data->header }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Asunto</label>
+                                    <input type="text" readonly="readonly" class="form-control" value="{{ $data->subject }}">
+                                </div>
+                                <div class="form-group">
                                     <label>Fondo:</label>
                                     <img src="{{ asset('application/storage/app/'.$data->background) }}" class="img-thumbnail" width="200" height="200">
                                     <a href="{{ route('preview_pdf',$data->id) }}" target="_blank" class="btn btn-success">Preview</a>

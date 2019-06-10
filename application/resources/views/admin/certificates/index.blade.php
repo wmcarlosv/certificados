@@ -16,6 +16,8 @@
                         <thead>
                             <th>ID</th>
                             <th>Titulo</th>
+                            <th>Cabecera</th>
+                            <th>Asunto</th>
                             <th>Fondo</th>
                             <th>/</th>
                         </thead>
@@ -24,6 +26,8 @@
                             <tr>
                                 <td>{{ $d->id }}</td>
                                 <td>{{ $d->title }}</td>
+                                <td>{{ $d->header }}</td>
+                                <td>{{ $d->subject }}</td>
                                 <td>
                                     @if(isset($d->background) and !empty($d->background))
                                         <img src="{{ asset('application/storage/app/'.$d->background) }}" class="img-thumbnail" width="150" height="150">
