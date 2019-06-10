@@ -227,7 +227,7 @@ class CertificatesController extends Controller
                 $m->from('certificadosreitigh@gmail.com', $user['header']);
 
                 $m->to($user['email'], $user['firts_name']." ".$user['last_name'])->subject($user['subject']);
-                $m->attachData($this->attachment_pdf($user['id'],$user['email']),'Certificado.pdf');
+                $m->attachData($this->attachment_pdf($user['id'],$user['email'],$full_name, $user['dni']),'Certificado.pdf');
             });
             
             $user = [];
@@ -263,16 +263,16 @@ class CertificatesController extends Controller
 
     }
 
-    public function attachment_pdf($id,$email){
+    public function attachment_pdf($id,$email,$fn = NULL,$dni = NULL){
 
         $data = Certificate::findorfail($id);
-        $student = DB::select('select * from sends where email = "'.$email.'"')[0];
+        /*$student = DB::select('select * from sends where email = "'.$email.'"')[0];
         $first_name = $student->first_name;
         $last_name = $student->last_name;
-        $dni = $student->dni;
+        $dni = $student->dni;*/
 
-        $content = str_replace("{first_name}", $first_name, $data->content);
-        $content = str_replace("{last_name}", $last_name, $content);
+        $content = str_replace("{first_name}", $fn, $data->content);
+        //$content = str_replace("{last_name}", $last_name, $content);
         $content = str_replace("{dni}", $dni, $content);
 
         $pdf = PDF::loadView('admin.certificates.pdf',['data' => $data, 'content' => $content])->setPaper('a4','landscape');
