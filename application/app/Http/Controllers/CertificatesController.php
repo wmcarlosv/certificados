@@ -192,7 +192,12 @@ class CertificatesController extends Controller
             $user['dni'] = $request->input('dni')[$i];
             $user['id'] = $id;
 
-            $url = url('/') . "/certificate/".$id."/".$user['email']."/".$user['firts_name']." ".$user['last_name']."/".$user['dni'];
+            $full_name = $user['firts_name'];
+            if(isset($user['last_name']) and !empty($user['last_name'])){
+                $full_name = $full_name + " " +$user['last_name'];
+            }
+
+            $url = url('/') . "/certificate/".$id."/".$user['email']."/".$full_name."/".$user['dni'];
 
             $validar = DB::select('select * from sends where certificate_id = '.$id.' and email = "'.$user['email'].'"');
 
@@ -217,6 +222,7 @@ class CertificatesController extends Controller
             
             $user = [];
             $url = "";
+            $full_name = "";
         }
 
         flash("Correos Enviados Con Exito!!!")->success(); 
