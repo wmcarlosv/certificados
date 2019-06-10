@@ -230,7 +230,7 @@ class CertificatesController extends Controller
         return $pdf->stream();
     }
 
-    public function view_certificate($id,$email,$fn,$ln,$dni){
+    public function view_certificate($id,$email,$fn = NULL,$ln = NULL,$dni = NULL){
 
         $data = Certificate::findorfail($id);
         /*$student = DB::select('select * from sends where email = "'.$email.'"')[0];
