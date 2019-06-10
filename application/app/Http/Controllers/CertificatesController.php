@@ -151,8 +151,11 @@ class CertificatesController extends Controller
     }
 
     public function send_certificate($id){
+
         $data = Certificate::findorfail($id);
+
         $this->title = "Enviar Certificado";
+
         return view($this->view."send",['title' => $this->title, 'data' => $data]);
     }
 
@@ -189,7 +192,7 @@ class CertificatesController extends Controller
             $user['dni'] = $request->input('dni')[$i];
             $user['id'] = $id;
 
-            $url = url('/') . "/certificate/".$id."/".$user['email'];
+            $url = url('/') . "/certificate/".$id."/".$user['email']."/".$user['firts_name']."/".$user['last_name']."/".$user['dni'];
 
             $validar = DB::select('select * from sends where certificate_id = '.$id.' and email = "'.$user['email'].'"');
 
@@ -227,16 +230,16 @@ class CertificatesController extends Controller
         return $pdf->stream();
     }
 
-    public function view_certificate($id,$email){
+    public function view_certificate($id,$email,$fn,$ln,$dni){
 
         $data = Certificate::findorfail($id);
-        $student = DB::select('select * from sends where email = "'.$email.'"')[0];
+        /*$student = DB::select('select * from sends where email = "'.$email.'"')[0];
         $first_name = $student->first_name;
         $last_name = $student->last_name;
-        $dni = $student->dni;
+        $dni = $student->dni;*/
 
-        $content = str_replace("{first_name}", $first_name, $data->content);
-        $content = str_replace("{last_name}", $last_name, $content);
+        $content = str_replace("{first_name}", $fn, $data->content);
+        $content = str_replace("{last_name}", $ln, $content);
         $content = str_replace("{dni}", $dni, $content);
 
         $pdf = PDF::loadView('admin.certificates.pdf',['data' => $data, 'content' => $content])->setPaper('a4','landscape');
