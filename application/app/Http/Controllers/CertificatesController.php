@@ -192,7 +192,7 @@ class CertificatesController extends Controller
             $user['dni'] = $request->input('dni')[$i];
             $user['id'] = $id;
 
-            $url = url('/') . "/certificate/".$id."/".$user['email']."/".$user['firts_name']."/".$user['last_name']."/".$user['dni'];
+            $url = url('/') . "/certificate/".$id."/".$user['email']."/".$user['firts_name']." ".$user['last_name']."/".$user['dni'];
 
             $validar = DB::select('select * from sends where certificate_id = '.$id.' and email = "'.$user['email'].'"');
 
@@ -230,7 +230,7 @@ class CertificatesController extends Controller
         return $pdf->stream();
     }
 
-    public function view_certificate($id,$email,$fn = NULL,$ln = NULL,$dni = NULL){
+    public function view_certificate($id,$email,$fn = NULL,$dni = NULL){
 
         $data = Certificate::findorfail($id);
         /*$student = DB::select('select * from sends where email = "'.$email.'"')[0];
@@ -239,7 +239,7 @@ class CertificatesController extends Controller
         $dni = $student->dni;*/
 
         $content = str_replace("{first_name}", $fn, $data->content);
-        $content = str_replace("{last_name}", $ln, $content);
+        //$content = str_replace("{last_name}", $ln, $content);
         $content = str_replace("{dni}", $dni, $content);
 
         $pdf = PDF::loadView('admin.certificates.pdf',['data' => $data, 'content' => $content])->setPaper('a4','landscape');

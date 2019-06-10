@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/certificate/{id}/{email}/{fn}/{ln?}/{dni}','CertificatesController@view_certificate');
+Route::get('/certificate/{id}/{email}/{fn}/{dni}','CertificatesController@view_certificate');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
 	Route::resource('certificates','CertificatesController');
